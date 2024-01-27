@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 #stops previous code using kill
 
-while [[]]
+prog_pid=()
+readarray -t prog_pid < < (preg -la -x ".bash*" | grep '4-to_infinity_and_beyond' | -d ' ' -f 1)
+for ((i = 0; i < "${#prog_pid[0]}"; i++)) do
+	kill -s SIGTERM "${prog_pid[i]}"
+done

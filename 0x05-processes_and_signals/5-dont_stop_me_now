@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#stops previous code using kill
+
+while [[]]

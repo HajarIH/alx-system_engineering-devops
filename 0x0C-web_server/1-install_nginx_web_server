@@ -5,18 +5,15 @@ sudo apt update
 
 sudo apt install -y nginx
 
-sudo sed -i 's/# server_names_hash_bucket_size 64;/server_names_hash_bucket_size 64;/' /etc/nginx/nginx.conf
+sudo service nginx start
 
-echo "<!DOCTYPE html>
-<html>
-<head>
-  <title>Hello World!</title>
-</head>
-<body>
-  <h1>Hello World!</h1>
-</body>
-</html>" | sudo tee /var/www/html/index.html > /dev/null 
+sudo ufw allow 'Nginx HTTP'
+
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
 
 sudo service nginx restart
-
-ps -ef | grep nginx | grep -v grep > /dev/null

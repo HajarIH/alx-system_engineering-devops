@@ -3,7 +3,7 @@
 #a file from our client to a server
 
 if [ "$#" -lt 4 ]; then
-        echo "Usage: $0 TATH_TO_FILE IP USERNAME
+        echo "Usage: $0 PATH_TO_FILE IP USERNAME
         PATH_TO_SSH_KEY"
         exit 1
 fi
@@ -13,6 +13,6 @@ ip=$2
 username=$3
 path_to_ssh=$4
 
-scp StrictHostKeyChecking=no -i "$path_to_ssh" "$path_to_file" "$username"@"$ip":~/ || { echo "File transfer failed"; exit 1; }
+scp -o StrictHostKeyChecking=no -i "$path_to_ssh" "$path_to_file" "$username"@"$ip":~/ || { echo "File transfer failed"; exit 1; }
 
 echo "File transferred successfully to $username@$ip:~/"

@@ -40,8 +40,6 @@ backend clickviral-tech-backend
 
 echo "$server_config" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
 
-echo "ENABLED=1" | sudo tee /etc/haproxy/haproxy.cfg > /dev/null
-
 echo "configured -- Roundrobin On web-01 & web-02"
 
 if [ "$(pgrep -c haproxy)" -le 0 ]; then

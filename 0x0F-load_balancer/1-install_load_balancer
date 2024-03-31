@@ -4,9 +4,7 @@
 echo -e "Updating and doing some minor checks...\n"
 
 function install() {
-	command -v "$1" &> /dev/null
-
-	if [ $? -ne 0 ]; then
+	if ! command -v "$1" &> /dev/null; then
 		echo -e "	Installing: $1\n"
 		sudo apt-get update -y -qq && \
 			sudo apt-get install -y "$1" -qq
@@ -37,8 +35,8 @@ frontend clickviral-tech-frontend
 
 backend clickviral-tech-backend
     balance roundrobin
-    server 151666-web-01 100.25.190.21:80 check
-    server 151666-web-02 54.160.77.90:80 check
+    server 151666-web-01 100.25.182.238:80 check
+    server 151666-web-02 18.234.106.174:80 check
 "
 
 echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg

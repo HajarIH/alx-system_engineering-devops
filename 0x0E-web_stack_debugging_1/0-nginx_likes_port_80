@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# a bash code that fix the probleme when Nginx isn't listening on port 80
+
+if pgrep nginx > /dev/null; then
+	echo "Nginx is running."
+else
+	echo "Nginx is not running. Starting Nginx service..."
+	sudo service nginx start
+fi
+
+# Check if Nginx is listening on port 80
+if sudo lsof -i -P -n | grep LISTEN | grep ':80'; then
+	echo "Nginx is already listening on port 80."
+else
+	echo "Nginx is not listening on port 80. Checking Nginx configuration..."
+
+	# Add or modify Nginx configuration to listen on port 80
+	if ! grep -q 'listen 80' /etc/nginx/sites-available/default; then
+		sudo sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+	fi
+
+	# Restart Nginx service
+	sudo service nginx restart
+
+	# Verify if Nginx is now listening on port 80
+	if sudo lsof -i -P -n | grep LISTEN | grep ':80'; then
+		echo "Nginx is now listening on port 80."
+	else
+		echo "Failed to fix the issue. Please check Nginx configuration manually."
+	fi
+fi

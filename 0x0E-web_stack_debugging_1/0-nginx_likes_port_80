@@ -8,7 +8,7 @@ if ! grep -q "listen 80 default_server;" /etc/nginx/sites-enabled/default; then
 	awk '/^server {/,/^listen \[::\]:80 default_server;/ { if ($0 ~ /^ *listen [[:digit:]]+ default_server;/) print "        listen 80 default_server;"; else print; next } 1' /etc/nginx/sites-enabled/default > /tmp/default.tmp && sudo mv /tmp/default.tmp /etc/nginx/sites-enabled/default
 fi
 
-if sudo netstat -tuln | grep -q ":80"; then
+if sudo ss -tuln | grep -q ":80"; then
 	echo "Error: Another web server like Apache is active and using port 80"
 	# Stop the Apache service
 	echo "Stopping Apache service..."

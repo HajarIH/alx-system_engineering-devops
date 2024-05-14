@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 sudo service nginx stop
+sudo useradd -r nginx || true
 sudo sed -i 's/#user www-data;/user nginx;/' /etc/nginx/nginx.conf
 sudo sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-enabled/default
 sudo chown -R nginx:nginx /etc/nginx/
-pidof apache2 | xargs sudo kill -9
+pidof apache2 | xargs -r sudo kill -9
 sudo service nginx start

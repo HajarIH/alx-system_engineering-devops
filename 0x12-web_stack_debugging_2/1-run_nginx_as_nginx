@@ -3,16 +3,16 @@
 
 sudo service nginx stop
 
-sed -i "s/#user www.data/user nginx/" /etc/nginx.conf
+sudo sed -i "s/#user www.data;/user nginx;/" /etc/nginx/nginx.conf
 
 sudo sed -i "s/80/8080/" /etc/nginx/sites-enabled/default
 
-chmod 644 /etc/nginx/nginx.conf
+sudo chmod 644 /etc/nginx/nginx.conf
 
-chown nginx:nginx /etc/nginx/ -R
+sudo chown -R nginx:nginx /etc/nginx/
 
 for pid in $(pidof apache2); do
-	kill "$pid"
+	sudo kill "$pid"
 done
 
-sudo -u nginx.service nginx start
+sudo service nginx start

@@ -1,18 +1,24 @@
 #!/usr/bin/env bash
-#configure nginx to be running as nginx user
 
+# Stop NGINX service
 sudo service nginx stop
 
-sed -i "s/#user www.data/user nginx/" /etc/nginx.conf
+# Update NGINX configuration to run as nginx user
+sudo sed -i "s/#user www-data;/user nginx;/" /etc/nginx/nginx.conf
 
-sudo sed -i "s/80/8080/" /etc/nginx/sites-enabled/default
+# Change the default listen port from 80 to 8080
+sudo sed -i "s/listen 80;/listen 8080;/" /etc/nginx/sites-enabled/default
 
-chmod 644 /etc/nginx/nginx.conf
+# Set correct permissions for the NGINX configuration file
+sudo chmod 644 /etc/nginx/nginx.conf
 
-chown nginx:nginx /etc/nginx/ -R
+# Change ownership of the NGINX directory to nginx user and group
+sudo chown -R nginx:nginx /etc/nginx/
 
+# Stop Apache2 if it's running
 for pid in $(pidof apache2); do
-  kill "$pid"
+	sudo kill "$pid"
 done
 
-sudo -u nginx.service nginx start
+# Start NGINX service as the nginx user
+sudo -u nginx service nginx start
